@@ -1,0 +1,75 @@
+# cluster1
+kind: Service
+apiVersion: v1
+metadata:
+  name: target-loadbalance-service
+spec:
+  selector:
+    app: target-loadbalance
+  ports:
+  -  port: 8080
+     name: http
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: target-loadbalance-details
+  labels:
+    account: target-loadbalance
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: target-loadbalance-v1
+  labels:
+    app: target-loadbalance
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: target-loadbalance
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: target-loadbalance
+        version: v1
+    spec:
+      serviceAccountName: target-loadbalance-details
+      containers:
+      - name: target-loadbalance
+        image: pehgomess/cluster1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+# ---
+# apiVersion: v1
+# type: kubernetes.io/tls
+# data:
+#   tls.crt:
+#   tls.key:
+# kind: Secret
+# metadata:
+#   name: target-loadbalance-tls
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: target-loadbalance-ingress
+spec:
+  rules:
+  -  http:
+       paths:
+       -  pathType: Prefix
+          path: "/target-loadbalance"
+          backend:
+            service:
+              name: target-loadbalance-service
+              port:
+                number: 8080
+#   tls:
+#   -  hosts:
+#      - api.server1.skylab.ml
+#      secretName: target-loadbalance-tls
+
