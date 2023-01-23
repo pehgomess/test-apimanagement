@@ -39,7 +39,7 @@ spec:
       serviceAccountName: target-loadbalance-details
       containers:
       - name: target-loadbalance
-        image: pehgomess/cluster1
+        image: pehgomess/cluster1:v1.1
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
