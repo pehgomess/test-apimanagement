@@ -7,5 +7,5 @@ RUN touch /tmp/goerr
 #COPY my_server.key /app
 #COPY my_server.pem /app
 RUN CGO_ENABLED=0 GOOS=linux go build -o cluster1
-CMD ["/app/cluster1 server1"]
+CMD ["/app/cluster1", "server1"]
 
