@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func postError(w http.ResponseWriter, code int) {
+func PostError(w http.ResponseWriter, code int) {
 	http.Error(w, http.StatusText(code), code)
 }
 
@@ -16,43 +16,43 @@ func StatusCode(w http.ResponseWriter, r *http.Request) {
 
 	switch id {
 	case "200":
-		postError(w, http.StatusOK)
+		PostError(w, http.StatusOK)
 		return
 	case "400":
-		postError(w, http.StatusBadRequest)
+		PostError(w, http.StatusBadRequest)
 		return
 	case "401":
-		postError(w, http.StatusUnauthorized)
+		PostError(w, http.StatusUnauthorized)
 		return
 	case "403":
-		postError(w, http.StatusForbidden)
+		PostError(w, http.StatusForbidden)
 		return
 	case "404":
-		postError(w, http.StatusNotFound)
+		PostError(w, http.StatusNotFound)
 		return
 	case "405":
-		postError(w, http.StatusMethodNotAllowed)
+		PostError(w, http.StatusMethodNotAllowed)
 		return
 	case "429":
-		postError(w, http.StatusTooManyRequests)
+		PostError(w, http.StatusTooManyRequests)
 		return
 	case "500":
-		postError(w, http.StatusInternalServerError)
+		PostError(w, http.StatusInternalServerError)
 		return
 	case "501":
-		postError(w, http.StatusNotImplemented)
+		PostError(w, http.StatusNotImplemented)
 		return
 	case "502":
-		postError(w, http.StatusBadGateway)
+		PostError(w, http.StatusBadGateway)
 		return
 	case "503":
-		postError(w, http.StatusServiceUnavailable)
+		PostError(w, http.StatusServiceUnavailable)
 		return
 	case "504":
-		postError(w, http.StatusGatewayTimeout)
+		PostError(w, http.StatusGatewayTimeout)
 		return
 	default:
-		postError(w, http.StatusNotFound)
+		PostError(w, http.StatusNotFound)
 		return
 	}
 }

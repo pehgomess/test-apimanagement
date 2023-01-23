@@ -1,9 +1,7 @@
 package handlers
 
 import (
-	"bufio"
 	"encoding/json"
-	"log"
 	"net/http"
 	"os"
 )
@@ -32,21 +30,16 @@ func ServerName() string {
 func Tl(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
-
 	servers := Server{
 		Server: ServerName(),
 	}
 
 	file, err := os.Open("/tmp/goerr")
-	if err != nil {
-		log.Fatal(err)
-	}
 	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	if scanner.Text() == "yes" {
-		w.WriteHeader(http.StatusServiceUnavailable)
-		return
+	if err != nil {
+		PostError(w, http.StatusServiceUnavailable)
+	} else {
+		json.NewEncoder(w).Encode(servers)
 	}
-	json.NewEncoder(w).Encode(servers)
+
 }
